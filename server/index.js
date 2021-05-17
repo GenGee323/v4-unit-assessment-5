@@ -18,9 +18,10 @@ massive({
     rejectUnauthorized: false,
   },
 }).then((db) => {
-  app.set("db", db);
-  console.log("db connected");
-});
+  app.set('db', db);
+  console.log('database connected')
+  app.listen(SERVER_PORT, () => console.log (`Server listening on ${PORT}`))
+}).catch((err) => console.log (err))
 
 app.use(
   session({
