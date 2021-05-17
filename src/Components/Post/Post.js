@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import noImage from './../../assets/no_image.jpg';
 import './Post.css';
+import { Link } from "react-router-dom";
 
 class Post extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Post extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/post/1`)
+    axios.get(`/api/post/${this.props.match.params.post_id}`)
       .then(res => {
         this.setState({ ...res.data, loading: false })
       })

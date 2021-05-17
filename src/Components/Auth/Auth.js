@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import logo from './../../assets/helo_logo.png';
 import './Auth.css';
+import { Link } from "react-router-dom";
 
 class Auth extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class Auth extends Component {
     axios.post('/api/auth/login', this.state)
       .then(res => {
         //code here
+        this.props.updateUser(res.data);
+        this.props.history.push("/dash");
       })
       .catch(err => {
         console.log(err)
