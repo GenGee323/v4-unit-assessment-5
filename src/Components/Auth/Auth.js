@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import logo from './../../assets/helo_logo.png';
 import './Auth.css';
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateUser } from "../../redux/reducer";
 
 class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
-      errorMsg: ''
+      username: username,
+      password: password,
+      errorMsg: arrowMsg
     }
     this.login = this.login.bind(this);
     this.register = this.register.bind(this);
@@ -27,11 +28,11 @@ class Auth extends Component {
       .then(res => {
         //code here
         this.props.updateUser(res.data);
-        this.props.history.push("/dash");
+        this.props.history.push('/dash');
       })
       .catch(err => {
         console.log(err)
-        this.setState({errorMsg: 'Incorrect username or password!'})
+        this.setState({errorMsg: 'Incorrect username and/or password!'})
       })
   }
 
@@ -42,15 +43,15 @@ class Auth extends Component {
       })
       .catch(err => {
         console.log(err)
-        this.setState({errorMsg: 'Username taken!'})
+        this.setState({errorMsg: 'Username already taken!'})
       })
   }
 
   closeErrorMessage = () => {
     this.setState({
       errorMsg: false, 
-      username: '', 
-      password: ''
+      username: username, 
+      password: password
     })
   }
 

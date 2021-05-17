@@ -5,6 +5,8 @@ import newLogo from './../../assets/new_logo.png';
 import logoutLogo from './../../assets/shut_down.png';
 import './Nav.css';
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateUser, logout } from "../../redux/reducer";
 
 class Nav extends Component {
   constructor(props) {
@@ -20,12 +22,12 @@ class Nav extends Component {
 
   getUser() {
     axios.get('/api/auth/me')
-    .then(res => 'replace this string with something useful')
+    .then(res => this.props.updateUser(res.data))
   }
   
   logout() {
     axios.post('/api/auth/logout')
-      .then(_ => 'replace this string with something else')
+      .then(_ => this.props.logout())
   }
   
   render() {
