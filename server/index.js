@@ -1,12 +1,36 @@
-require('dotenv').config();
-const express = require('express'),
-      userCtrl = require('./controllers/user'),
-      postCtrl = require('./controllers/posts')
+require("dotenv").config();
+const express = require("express"),
+  userCtrl = require("./controllers/user"),
+  postCtrl = require("./controllers/posts");
+
+const massive = require("massive");
+const session = require("express-session");
 
 
 const app = express();
-
 app.use(express.json());
+
+const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
+
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+}).then((db) => {
+  app.set("db", db);
+  console.log("db connected");
+});
+
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 },
+  })
+);
+
 
 //Auth Endpoints
 app.post('/api/auth/register', userCtrl.register);
